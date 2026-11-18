@@ -1,0 +1,69 @@
+@baseUrl = http://localhost:3000
+@apiKey = t5-kantin-local
+
+### Daftar semua menu
+GET {{baseUrl}}/menu
+
+### Filter kategori minuman
+GET {{baseUrl}}/menu?kategori=minuman
+
+### Detail menu tersedia
+GET {{baseUrl}}/menu/1
+
+### Detail menu tidak ditemukan
+GET {{baseUrl}}/menu/9999
+
+### URL tidak dikenal
+GET {{baseUrl}}/tidak-ada
+
+### Tambah menu - berhasil (201); tersedia menggunakan default true
+POST {{baseUrl}}/menu
+x-api-key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "nama": "Jus Alpukat",
+  "harga": 15000,
+  "kategori": "minuman"
+}
+
+### Tambah menu - tanpa API key (401)
+POST {{baseUrl}}/menu
+Content-Type: application/json
+
+{
+  "nama": "Roti Bakar",
+  "harga": 12000,
+  "kategori": "camilan"
+}
+
+### Tambah menu - validasi gagal, semua kesalahan dikembalikan (422)
+POST {{baseUrl}}/menu
+x-api-key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "nama": "A",
+  "harga": 999999,
+  "kategori": "dessert",
+  "tersedia": "ya"
+}
+
+### Tambah menu - nama duplikat tanpa membedakan kapital (409)
+POST {{baseUrl}}/menu
+x-api-key: {{apiKey}}
+Content-Type: application/json
+
+{
+  "nama": "nASI gORENG",
+  "harga": 20000,
+  "kategori": "makanan"
+}
+
+### Hapus menu - berhasil (204)
+DELETE {{baseUrl}}/menu/5
+x-api-key: {{apiKey}}
+
+### Hapus menu - tidak ditemukan (404)
+DELETE {{baseUrl}}/menu/9999
+x-api-key: {{apiKey}}

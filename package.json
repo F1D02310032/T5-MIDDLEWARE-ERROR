@@ -1,0 +1,19 @@
+{
+  "name": "t5-middleware-error",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tugas 5 - Middleware dan penanganan error terpusat (Varian B: Kantin)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "joi": "^17.13.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
