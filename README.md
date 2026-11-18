@@ -7,8 +7,8 @@
 ## Cara Menjalankan
 1. Jalankan `npm install`.
 2. Salin `.env.example` menjadi `.env`, lalu atur `API_KEY` dan `PORT` bila diperlukan.
-3. Jalankan `npm run dev`; API tersedia di `http://localhost:3000`.
-4. Gunakan nilai `API_KEY` yang sama pada header `x-api-key` di `requests.http`.
+3. Jalankan `npm run dev`; API tersedia di `http://localhost:<PORT>` (default `3000`).
+4. Pastikan `@baseUrl` di `requests.http` menggunakan port yang sama dan `@apiKey` sama dengan nilai `API_KEY` di `.env`.
 
 API key wajib diatur melalui environment. Jika `API_KEY` tidak diset, middleware menolak seluruh POST dan DELETE dengan `401`; endpoint GET tetap dapat digunakan. Tidak ada kunci rahasia bawaan.
 
@@ -45,13 +45,28 @@ requests.http      Skenario uji untuk REST Client.
 - Format error: `{ "error": { "pesan": "...", "kode": "..." } }`. Detail internal error 500 hanya dicatat di terminal.
 
 ## Pengujian
-Jalankan permintaan pada `requests.http` dengan REST Client. Skenario di dalamnya meliputi daftar, filter, detail sukses/404, rute tidak dikenal, POST 201/401/422/409, serta DELETE 204/404.
+Jalankan server dengan `npm run dev`, kemudian kirim tiap request di `requests.http` menggunakan ekstensi REST Client. Jalankan POST sukses sebelum POST duplikat, dan DELETE sukses setelah screenshot daftar/detail jika ingin mempertahankan data awal.
 
-Simpan tangkapan layar hasil pengujian di `screenshot/`:
-- `[Isi setelah pengujian]` Terminal dengan logger untuk status 404, 401, 422, 201, dan 204.
-- `[Isi setelah pengujian]` Respons REST Client: GET 404, rute tidak dikenal, POST 401/422/409/201, dan DELETE 204.
-- `[Isi setelah pengujian]` Uji 500: respons klien dan jejak error terminal; pulihkan kode setelah uji.
-- `[Isi setelah pengujian]` `requests.http` terbuka di VS Code.
+Tangkapan layar respons REST Client yang tersedia di `screenshot/`:
+
+| File | Hasil yang ditunjukkan |
+|---|---|
+| [get1.png](./screenshot/get1.png) | GET daftar menu (`200`) |
+| [get2.png](./screenshot/get2.png) | GET dengan filter kategori minuman (`200`) |
+| [get3.png](./screenshot/get3.png) | GET detail menu (`200`) |
+| [get4.png](./screenshot/get4.png) | GET detail tidak ditemukan (`404 NOT_FOUND`) |
+| [get5.png](./screenshot/get5.png) | URL tidak dikenal (`404 ROUTE_NOT_FOUND`) |
+| [post1.png](./screenshot/post1.png) | POST berhasil (`201`) |
+| [post2.png](./screenshot/post2.png) | POST tanpa API key (`401`) |
+| [post3.png](./screenshot/post3.png) | POST gagal validasi (`422`) |
+| [post4.png](./screenshot/post4.png) | POST nama duplikat (`409 NAMA_DUPLIKAT`) |
+| [delete1.png](./screenshot/delete1.png) | DELETE berhasil (`204`) |
+| [delete2.png](./screenshot/delete2.png) | DELETE menu tidak ditemukan (`404 NOT_FOUND`) |
+
+Screenshot tambahan yang masih perlu dilengkapi:
+- Terminal server yang memperlihatkan baris logger untuk status `404`, `401`, `422`, `201`, dan `204`.
+- Uji error `500`: respons umum di klien dan jejak error di terminal. Pulihkan kode setelah uji.
+- `requests.http` terbuka di VS Code.
 
 ## Deklarasi Penggunaan AI
 | Bagian | Alat AI | Dipakai untuk apa | Cara saya memeriksa hasilnya |
